@@ -1,0 +1,36 @@
+Aviso                                      int64 
+Clase de aviso                            object
+Orden                                    float64
+Ubicación técnica                         object
+Denominación de objeto técnico            object
+Descripción                               object
+Pto.tbjo.responsable                      object
+Inicio deseado                    datetime64[ns]
+Fin deseado                       datetime64[ns]
+Sociedad                                  object
+Status de usuario                         object
+Orden.1                                  float64
+Clase de orden                            object
+Revisión                                  object
+Ubicación técnica.1                       object
+Texto breve                               object
+Pto.tbjo.responsable.1                    object
+Fecha de inicio extrema                   object
+Fecha fin extrema                         object
+Tota general (plan)                      float64
+Total general (real)                     float64
+Indicador ABC                             object
+Status del sistema                        object
+Sociedad CO                               object
+Planes Trab.                              object
+Clase Consignación                        object  --texto
+Estado                                   float64  --numero
+Ub.Tecnica busqueda                       object
+Denominación de la revisión               object
+Fecha inic. revisión                      object  --fecha  
+Hora inic.revisión                       float64  
+Fecha fin revisión                        object  --fecha
+Hora fin revisión                        float64
+Desc. Jefe Trab.                          object
+ST                                        object   --texto
+INSTALACIÓN                               object   --texto
