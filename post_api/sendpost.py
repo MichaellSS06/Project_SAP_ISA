@@ -1,48 +1,104 @@
 import pandas as pd
 import os
 import numpy as np
- 
+import requests
+from datetime import datetime
+
 #Dataframe
 # Ruta del archivo original
-archivo_xlsx = r"C:\Users\micha\OneDrive\Desktop\Project_SAP_ISA\post_api\LISTA_SHAREPOINT_XLSX_3.xlsx"
+archivo_xlsx = r"C:\Users\Michaell\Desktop\Project_SAP_ISA\post_api\LISTA_SHAREPOINT_XLSX_3.xlsx"
  
 # Leer todo el archivo
 df = pd.read_excel(archivo_xlsx, engine='openpyxl')
 print(df.columns)
 print(df.size)
 print(len(df))
+print(df["Ubicación técnica.1"])
 # print(df)
-# print(df.dtypes)
-print(df.iloc[0:2,7:9])
+print(df.dtypes)
+print(df.iloc[0:2,17:19])
+# print(df.iloc[0:2,7:9])
 
 # Función para convertir fechas a formato estándar yyyy-mm-dd
-def parse_fecha(valor):
+def format_date(valor):
     if pd.isna(valor) or valor == "":
-        return np.nan
-    try:
-        # Intentar dd/mm/yyyy
-        return pd.to_datetime(valor, format="%d/%m/%Y", errors="raise").date()
-    except Exception:
+        return None
+    if isinstance(valor, str):
+        valor = valor.strip().replace(".", "")  # limpiar espacios/puntos
         try:
-            # Intentar yyyy-mm-dd HH:MM:SS
-            return pd.to_datetime(valor, format="%Y-%m-%d %H:%M:%S", errors="raise").date()
-        except Exception:
-            # Último intento: que pandas infiera
-            return pd.to_datetime(valor, errors="coerce").date()
+            # Intentar dd/mm/yyyy
+            return datetime.strptime(valor, "%d/%m/%Y").date().isoformat()
+        except ValueError:
+            try:
+                # Intentar yyyy-mm-dd HH:MM:SS
+                return pd.to_datetime(valor, format="%Y-%m-%d %H:%M:%S", errors="raise",dayfirst=True).date() #datetime.strptime(valor, "%Y-%m-%d %H:%M:%S").date().isoformat()
+            except ValueError:
+                    try:
+                        # Intentar formato yyyy-mm-dd
+                        return datetime.strptime(valor, "%Y-%m-%d").date().isoformat()
+                    except ValueError:
+                        return None
+    return None
 
-# Aplicar a columnas
-df["Fecha inic. revisión"] = df["Fecha inic. revisión"].apply(parse_fecha)
-df["Fecha fin revisión"] = df["Fecha fin revisión"].apply(parse_fecha)
-df["Fecha de inicio extrema"] = df["Fecha de inicio extrema"].apply(parse_fecha)
-df["Fecha fin extrema"] = df["Fecha fin extrema"].apply(parse_fecha)
-# Si quieres asegurarte de que queden como string en formato yyyy-MM-dd
-df["Fecha inic. revisión"] = df["Fecha inic. revisión"].astype(str)
-df["Fecha fin revisión"] = df["Fecha fin revisión"].astype(str)
-df["Fecha de inicio extrema"] = df["Fecha de inicio extrema"].astype(str)
-df["Fecha fin extrema"] = df["Fecha fin extrema"].astype(str)
+# Normalizar columnas de fecha
+for col in ["Fecha de inicio extrema", "Fecha fin extrema", "Fecha inic. revisión", "Fecha fin revisión"]:
+    df[col] = df[col].apply(format_date)
+
+# Formato string en yyyy-MM-dd
+# df["Fecha inic. revisión"] = df["Fecha inic. revisión"].astype(str)
+# df["Fecha fin revisión"] = df["Fecha fin revisión"].astype(str)
+# df["Fecha de inicio extrema"] = df["Fecha de inicio extrema"].astype(str)
+# df["Fecha fin extrema"] = df["Fecha fin extrema"].astype(str)
 df["Inicio deseado"] = df['Inicio deseado'].astype(str)
 df["Fin deseado"] = df['Fin deseado'].astype(str)
-print(df.iloc[0:2,29:32])
-print(df.iloc[0:2,17:19])
-print(df.iloc[0:2,7:9])
-print(df.dtypes)
+# print(df.iloc[0:2,29:32])
+# print(df.iloc[0:2,17:19])
+# print(df.iloc[0:2,7:9])
+df = df.rename(columns={
+    "Aviso": "aviso",
+    "Clase de aviso": "clase_de_aviso",
+    "Orden": "orden",
+    "Ubicación técnica": "ubicacion_tecnica",
+    "Denominación de objeto técnico": "denominacion_de_objeto_tecnico",
+    "Descripción": "descripcion",
+    "Pto.tbjo.responsable": "pto_tbjo_responsable",
+    "Inicio deseado": "inicio_deseado",
+    "Fin deseado": "fin_deseado",
+    "Sociedad": "sociedad",
+    "Status de usuario": "status_de_usuario",
+    "Orden.1": "orden_1",
+    "Clase de orden": "clase_de_orden",
+    "Revisión": "revision",
+    "Ubicación técnica.1": "ubicacion_tecnica_1",
+    "Texto breve": "texto_breve",
+    "Pto.tbjo.responsable.1": "pto_tbjo_responsable_1",
+    "Fecha de inicio extrema": "fecha_de_inicio_extrema",
+    "Fecha fin extrema": "fecha_fin_extrema",
+    "Tota general (plan)": "tota_general_plan",
+    "Total general (real)": "total_general_real",
+    "Indicador ABC": "indicador_ABC",
+    "Status del sistema": "status_del_sistema",
+    "Sociedad CO": "sociedad_CO",
+    "Planes Trab.": "planes_trab",
+    "Clase Consignación": "clase_consignacion",
+    "Estado": "estado",
+    "Ub.Tecnica busqueda": "ub_tecnica_busqueda",
+    "Denominación de la revisión": "denominacion_de_la_revision",
+    "Fecha inic. revisión": "fecha_inic_revision",
+    "Hora inic.revisión": "hora_inic_revision",
+    "Fecha fin revisión": "fecha_fin_revision",
+    "Hora fin revisión": "hora_fin_revision",
+    "Desc. Jefe Trab.": "desc_jefe_trab",
+    "ST": "st",
+    "INSTALACIÓN": "instalacion",
+})
+print(df["ubicacion_tecnica_1"])
+print(df.isnull().sum())
+df = df.replace({np.nan: None})
+df = df.where(pd.notnull(df), None)
+# df = df.replace({np.nan: None})
+print(df.isnull().sum())  # ver columnas con valores nulos
+data = df.to_dict(orient="records")
+print(data)
+# resp = requests.post("http://localhost:8000/api/registros/insertar/", json=data)
+# print(resp.json())
