@@ -30,3 +30,19 @@ class InsertarRegistrosView(APIView):
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
+# 3. Obtener registros filtrados (~5,000) por texto y 2 fechas
+class FiltrarRegistrosView(APIView):
+    def get(self, request):
+        st = request.query_params.get("st")
+        
+
+        filtros = Q()
+        if st:
+            filtros &= Q(st__icontains=st)
+        print(filtros)
+        registros = RegistrosSAP.objects.filter(filtros)
+        print(registros)
+        serializer = RegistroSerializer(registros, many=True)
+        print(len(serializer.data))
+        return Response(serializer.data, status=status.HTTP_200_OK)
+

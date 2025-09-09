@@ -6,54 +6,56 @@ from datetime import datetime
 
 #Dataframe
 # Ruta del archivo original
-archivo_xlsx = r"C:\Users\Michaell\Desktop\Project_SAP_ISA\post_api\LISTA_SHAREPOINT_XLSX_3.xlsx"
+archivo_xlsx = r"C:\Users\micha\OneDrive\Desktop\Project_SAP_ISA\post_api\LISTA_SHAREPOINT_XLSX_3.xlsx"
  
 # Leer todo el archivo
 df = pd.read_excel(archivo_xlsx, engine='openpyxl')
 print(df.columns)
 print(df.size)
 print(len(df))
-print(df["Ubicación técnica.1"])
 # print(df)
 print(df.dtypes)
 print(df.iloc[0:2,17:19])
 # print(df.iloc[0:2,7:9])
+print(type(df.loc[0, "Fecha de inicio extrema"]))  # dd/mm/yyyy
+print(type(df.loc[1, "Fecha de inicio extrema"]))  # yyyy-mm-dd HH:MM:SS
 
 # Función para convertir fechas a formato estándar yyyy-mm-dd
 def format_date(valor):
     if pd.isna(valor) or valor == "":
         return None
+    
+    # Caso string
     if isinstance(valor, str):
-        valor = valor.strip().replace(".", "")  # limpiar espacios/puntos
+        valor = valor.strip()
         try:
-            # Intentar dd/mm/yyyy
             return datetime.strptime(valor, "%d/%m/%Y").date().isoformat()
         except ValueError:
             try:
-                # Intentar yyyy-mm-dd HH:MM:SS
-                return pd.to_datetime(valor, format="%Y-%m-%d %H:%M:%S", errors="raise",dayfirst=True).date() #datetime.strptime(valor, "%Y-%m-%d %H:%M:%S").date().isoformat()
-            except ValueError:
-                    try:
-                        # Intentar formato yyyy-mm-dd
-                        return datetime.strptime(valor, "%Y-%m-%d").date().isoformat()
-                    except ValueError:
-                        return None
-    return None
+                return pd.to_datetime(valor, errors="raise", dayfirst=True).date().isoformat()
+            except Exception:
+                return None
+
+    # Caso datetime / Timestamp / datetime64
+    try:
+        return pd.to_datetime(valor, errors="coerce").date().isoformat()
+    except Exception:
+        return None
 
 # Normalizar columnas de fecha
 for col in ["Fecha de inicio extrema", "Fecha fin extrema", "Fecha inic. revisión", "Fecha fin revisión"]:
     df[col] = df[col].apply(format_date)
 
+print(df["Fecha de inicio extrema"])
+
 # Formato string en yyyy-MM-dd
-# df["Fecha inic. revisión"] = df["Fecha inic. revisión"].astype(str)
-# df["Fecha fin revisión"] = df["Fecha fin revisión"].astype(str)
-# df["Fecha de inicio extrema"] = df["Fecha de inicio extrema"].astype(str)
-# df["Fecha fin extrema"] = df["Fecha fin extrema"].astype(str)
 df["Inicio deseado"] = df['Inicio deseado'].astype(str)
 df["Fin deseado"] = df['Fin deseado'].astype(str)
+
 # print(df.iloc[0:2,29:32])
 # print(df.iloc[0:2,17:19])
 # print(df.iloc[0:2,7:9])
+
 df = df.rename(columns={
     "Aviso": "aviso",
     "Clase de aviso": "clase_de_aviso",
@@ -92,13 +94,17 @@ df = df.rename(columns={
     "ST": "st",
     "INSTALACIÓN": "instalacion",
 })
-print(df["ubicacion_tecnica_1"])
-print(df.isnull().sum())
+
+# print(df["ubicacion_tecnica_1"])
+# print(df.isnull().sum())
 df = df.replace({np.nan: None})
 df = df.where(pd.notnull(df), None)
 # df = df.replace({np.nan: None})
-print(df.isnull().sum())  # ver columnas con valores nulos
+# print(df.isnull().sum())  # ver columnas con valores nulos
 data = df.to_dict(orient="records")
-print(data)
-# resp = requests.post("http://localhost:8000/api/registros/insertar/", json=data)
-# print(resp.json())
+# print(data)
+
+res_del = requests.delete("http://localhost:8000/api/registros/eliminar/")
+print(res_del.json())
+res_post = requests.post("http://localhost:8000/api/registros/insertar/", json=data)
+print(res_post.json())

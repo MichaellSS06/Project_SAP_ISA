@@ -1,0 +1,4 @@
+###Obtener registros filtrados por st
+GET http://localhost:8000/api/registros/filtrar/?st=STS
+###Borrar todos los registros
+DELETE http://localhost:8000/api/registros/eliminar/
