@@ -6,7 +6,7 @@ from datetime import datetime
 
 #Dataframe
 # Ruta del archivo original
-archivo_xlsx = r"C:\Users\Michaell\Desktop\Project_SAP_ISA\post_api\LISTA_SHAREPOINT_XLSX_3.xlsx"
+archivo_xlsx = r"C:\Users\micha\OneDrive\Desktop\Project_SAP_ISA\post_api\LISTA_SHAREPOINT_XLSX_3.xlsx"
  
 # Leer todo el archivo
 df = pd.read_excel(archivo_xlsx, engine='openpyxl')
@@ -38,7 +38,8 @@ def format_date(valor):
 
     # Caso datetime / Timestamp / datetime64
     try:
-        return pd.to_datetime(valor, errors="coerce").date().isoformat()
+        valor = str(valor).strip()
+        return pd.to_datetime(valor, format="%Y-%d-%m %H:%M:%S",errors="coerce").date().isoformat()
     except Exception:
         return None
 

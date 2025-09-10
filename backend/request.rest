@@ -1,4 +1,4 @@
 ###Obtener registros filtrados por st
-GET http://localhost:8000/api/registros/filtrar/?st=STC
+GET http://localhost:8000/api/registros/filtrar/?st=STN&fecha_inicio=2025-09-10&fecha_fin=2025-09-10   
 ###Borrar todos los registros
 DELETE http://localhost:8000/api/registros/eliminar/

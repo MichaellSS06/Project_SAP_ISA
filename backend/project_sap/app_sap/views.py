@@ -34,15 +34,22 @@ class InsertarRegistrosView(APIView):
 class FiltrarRegistrosView(APIView):
     def get(self, request):
         st = request.query_params.get("st")
-        
+        fecha_inicio = request.query_params.get("fecha_inicio")
+        fecha_fin = request.query_params.get("fecha_fin")
 
         filtros = Q()
         if st:
             filtros &= Q(st__icontains=st)
+        if fecha_inicio and fecha_fin:
+            filtros &= (Q(fecha_inic_revision__gte=fecha_inicio) & Q(fecha_fin_revision__lte=fecha_fin)) | (Q(fecha_fin_revision__gte=fecha_inicio) & Q(fecha_fin_revision__lte=fecha_fin)) | (Q(fecha_inic_revision__lte=fecha_inicio) & Q(fecha_fin_revision__gte=fecha_fin))
+
         print(filtros)
+
         registros = RegistrosSAP.objects.filter(filtros)
         print(registros)
+
         serializer = RegistroSerializer(registros, many=True)
         print(len(serializer.data))
+
         return Response(serializer.data, status=status.HTTP_200_OK)
 
