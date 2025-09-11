@@ -15,7 +15,16 @@ export default function TabTwoScreen() {
     const avisos = useAvisosStore((state) => state.avisos);
     const [inputValue, setInputValue] = useState('');
     const color = useThemeColor({}, 'text');
-    
+
+    const [consignacion, setConsignacion] = useState<string[]>([])
+    const arrayConsignacion = ["N","L","S"]
+    // Si no hay estado, considerar todos
+    const filtroConsignacion = consignacion.length === 0 ? arrayConsignacion : consignacion;
+
+    const [estado, setEstado] = useState<number[]>([])
+    const arrayEstado = [1,2,3,4,5,6,7,8]
+    // Si no hay estado, considerar todos
+    const filtroEstado = estado.length === 0 ? arrayEstado : estado;
 
   return (
     <ParallaxScrollView
@@ -34,13 +43,19 @@ export default function TabTwoScreen() {
       </ThemedView>
 
       <Collapsible title="Consignación">
-        <CheckboxScreen/>
+        <CheckboxScreen 
+          estado={consignacion} 
+          setEstado={setConsignacion} 
+          arrayLista={arrayConsignacion}
+          resultadoFinal={filtroConsignacion} />
       </Collapsible>
      
       <Collapsible title="Estado">
-        <ThemedText>
-          1, 2, 3, 4, 5, 6, 7, 8
-        </ThemedText>
+        <CheckboxScreen 
+          estado={estado} 
+          setEstado={setEstado} 
+          arrayLista={arrayEstado}
+          resultadoFinal={filtroEstado} />
       </Collapsible>
 
       <Collapsible title="Línea o Subestación">
@@ -50,6 +65,7 @@ export default function TabTwoScreen() {
             value={inputValue}
             onChangeText={setInputValue}
             placeholder="Escribe aquí..."
+            placeholderTextColor={color}
             maxLength={10}
             />
         </ThemedView>

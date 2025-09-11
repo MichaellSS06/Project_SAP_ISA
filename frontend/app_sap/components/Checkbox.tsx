@@ -1,15 +1,19 @@
-import { useState } from "react";
-import Checkbox from "expo-checkbox";
+import Checkbox from "expo-checkbox"; //eslint-disable-line
 import { ThemedView } from "./ThemedView";
 import { ThemedText } from '@/components/ThemedText';
 
-const consignacionLista = ["N", "L", "S"];
+type CheckboxScreenProps<T extends number | string> = {
+  estado: T[];
+  setEstado: React.Dispatch<React.SetStateAction<T[]>>;
+  arrayLista: T[];
+  resultadoFinal : T[]
+};
 
-export default function CheckboxScreen() {
-  const [consignacion, setConsignacion] = useState<string[]>([]);
-
-  const toggleOpcion = (opcion: string, checked: boolean) => {
-    setConsignacion((prev) => {
+export default function CheckboxScreen<T extends string | number>({estado, setEstado, arrayLista, resultadoFinal}
+  :CheckboxScreenProps<T>
+) {
+  const toggleOpcion = (opcion: T, checked: boolean) => {
+    setEstado((prev) => {
       if (checked) {
         return [...prev, opcion]; // agrega
       } else {
@@ -18,16 +22,12 @@ export default function CheckboxScreen() {
     });
   };
 
-  // Si no hay consignacion, considerar todos
-  const resultadoFinal =
-    consignacion.length === 0 ? consignacionLista : consignacion;
-
   return (
     <ThemedView style={{ padding: 20 }}>
       <ThemedText style={{ fontSize: 18, marginBottom: 10 }}>Filtros:</ThemedText>
 
-      {consignacionLista.map((op) => {
-        const checked = consignacion.includes(op);
+      {arrayLista.map((op) => {
+        const checked = estado.includes(op);
         return (
           <ThemedView key={op} style={{ flexDirection: "row", alignItems: "center" }}>
             <Checkbox
