@@ -41,7 +41,7 @@ class FiltrarRegistrosView(APIView):
         if st:
             filtros &= Q(st__icontains=st)
         if fecha_inicio and fecha_fin:
-            filtros &= (Q(fecha_inic_revision__gte=fecha_inicio) & Q(fecha_fin_revision__lte=fecha_fin)) | (Q(fecha_fin_revision__gte=fecha_inicio) & Q(fecha_fin_revision__lte=fecha_fin)) | (Q(fecha_inic_revision__lte=fecha_inicio) & Q(fecha_fin_revision__gte=fecha_fin))
+            filtros &= (Q(fecha_inic_revision__gte=fecha_inicio) & Q(fecha_fin_revision__lte=fecha_fin))| (Q(fecha_fin_revision__gte=fecha_inicio) & Q(fecha_fin_revision__lte=fecha_fin)) | (Q(fecha_inic_revision__lte=fecha_inicio) & Q(fecha_fin_revision__gte=fecha_fin)) | (Q(fecha_inic_revision__gte=fecha_inicio) & Q(fecha_inic_revision__lte=fecha_fin))
 
         print(filtros)
 

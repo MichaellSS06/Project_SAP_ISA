@@ -63,32 +63,44 @@ export default function HomeScreen() {
         </ThemedView>
 
         <ThemedView style={styles.titleContainer}>
-            <ThemedText type="subtitle" style={{textAlign: 'center', fontSize: 25}}>App de Avisos, OM y Planes de trabajo</ThemedText>
+            <ThemedText type="subtitle" style={{textAlign: 'center', fontSize: 25, marginVertical:10}}>App de Avisos, OM y Planes de trabajo</ThemedText>
         </ThemedView>
                 
         <ThemedView style={styles.stepContainer}>
-            <Pressable onPress={() => {setSt("STN")}}>
-                <ThemedText type="subtitle">👋 STN</ThemedText></Pressable>
-            <Pressable onPress={() => {setSt("STC")}}>
-                <ThemedText type="subtitle">📄 STC</ThemedText></Pressable>
-            <Pressable onPress={() => {setSt("STS")}}>
-                <ThemedText type="subtitle">⚙️ STS</ThemedText></Pressable>
+            <Pressable style={{backgroundColor:"red", ...styles.pressablebutton}} 
+            onPress={() => {setSt("STN")}}>
+                <ThemedText type="subtitle" style={{fontSize:26}}>👋 STN     </ThemedText>
+            </Pressable>
+            <Pressable style={{backgroundColor:"#9d00ffff", ...styles.pressablebutton}} 
+            onPress={() => {setSt("STC")}}>
+                <ThemedText type="subtitle" style={{fontSize:26}}>📄 STC     </ThemedText>
+            </Pressable>
+            <Pressable style={{backgroundColor:"#05ea55cf", ...styles.pressablebutton}} 
+            onPress={() => {setSt("STS")}}>
+                <ThemedText type="subtitle" style={{fontSize:26}}>⚙️ STS     </ThemedText>
+            </Pressable>
         </ThemedView>
 
         <ThemedView style={styles.stepContainer}>
-            <Pressable onPress={() => showPicker("inicio")}>
-                <ThemedText type="subtitle" style={{ marginTop: 10}}>Seleccionar fecha de inicio</ThemedText></Pressable>
+            <ThemedView style={{backgroundColor: "#ff8400ff", ...styles.databox}}>
+                <Pressable style ={{alignItems:"center"}} onPress={() => showPicker("inicio")}>
+                    <ThemedText type="subtitle" style={{ marginVertical: 10, fontSize: 20}}>Seleccionar fecha de inicio</ThemedText>
+                </Pressable>
 
-            <ThemedText type= "defaultSemiBold" style={{ marginTop: 10, fontSize: 16 }}>
-                {fechaInicio.toISOString().split("T")[0]}
-            </ThemedText>
+                <ThemedText type= "defaultSemiBold" style={{ fontSize: 20, textAlign:"center" }}>
+                    {fechaInicio.toISOString().split("T")[0]}
+                </ThemedText>
+            </ThemedView>
+            
+            <ThemedView style={{backgroundColor: "#0033ffff", ...styles.databox}}>
+                <Pressable style ={{alignItems:"center"}} onPress={() => showPicker("fin")}>
+                    <ThemedText type="subtitle" style={{ marginVertical: 10, fontSize: 20}}>Seleccionar fecha de fin</ThemedText>
+                </Pressable>
 
-            <Pressable onPress={() => showPicker("fin")}>
-                <ThemedText type="subtitle" style={{ marginTop: 10}}>Seleccionar fecha de fin</ThemedText></Pressable>
-
-            <ThemedText type= "defaultSemiBold" style={{ marginTop: 10, fontSize: 16 }}>
-                {fechaFin.toISOString().split("T")[0]}
-            </ThemedText>
+                <ThemedText type= "defaultSemiBold" style={{fontSize: 20, textAlign:"center" }}>
+                    {fechaFin.toISOString().split("T")[0]}
+                </ThemedText>
+            </ThemedView>
 
 
             {show && (
@@ -116,8 +128,9 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   stepContainer: {
-    gap: 30,
+    gap: 20,
     marginBottom: 8,
+    marginTop: 8
   },
   reactLogo: {
     height: 178,
@@ -126,4 +139,15 @@ const styles = StyleSheet.create({
     left: 0,
     position: 'absolute',
   },
+  pressablebutton: {
+    borderRadius: 30, 
+    height: 50,
+    alignItems: "center",
+    justifyContent: "center",
+    marginHorizontal: 60
+  },
+  databox: {
+    borderRadius: 20,
+    paddingBottom: 10
+  }
 });

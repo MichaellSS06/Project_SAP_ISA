@@ -1,18 +1,39 @@
 import { StatusBar } from 'expo-status-bar';
 import { Platform, StyleSheet } from 'react-native';
-
-
-import { Text, View } from 'react-native';
+import { ThemedView } from '@/components/ThemedView';
+import { ThemedText } from '@/components/ThemedText';
+import { ExternalLink } from '@/components/ExternalLink';
+import { Image } from 'expo-image';
 
 export default function ModalScreen() {
   return (
-    <View style={styles.container}>
-      <Text style={styles.title}>Modal</Text>
-      <View style={styles.separator}/>
-      
+    <ThemedView style={styles.container}>
+      <ThemedView style={styles.titleContainer}>
+              <ThemedText type="title">Michaell Huanca</ThemedText>
+      </ThemedView>
+      <ThemedView style={styles.sections}>
+        <ThemedText type="subtitle">Actual Asistente SE Zorritos</ThemedText>
+      </ThemedView>
+
+      <ThemedView style={{paddingTop: 8, ...styles.sections}}>
+        <Image source={require('@/assets/images/github.svg')} style={styles.image}/>
+        <Image source={require('@/assets/images/github.svg')} style={styles.image}/>
+      </ThemedView>
+      <ThemedView style={{paddingTop: 8, ...styles.sections}}>
+        <ThemedText type="default" style={{textAlign:"center"}}>© 2025 App de Avisos, OM y Planes de trabajo. Todos los derechos reservados.</ThemedText>
+      </ThemedView>
+
+      <ThemedView style={{paddingTop: 8, ...styles.sections}}>
+        <ThemedText type="default" style={{textAlign:"center"}}>Desarrollado por {' '}
+          <ExternalLink href={"https://github.com/MichaellSS06"}>
+            <ThemedText type="link" style={{textAlign:"center"}}>MichaellSS06</ThemedText>
+          </ExternalLink>
+        </ThemedText>
+      </ThemedView>
+
       {/* Use a light status bar on iOS to account for the black space above the modal */}
       <StatusBar style={Platform.OS === 'ios' ? 'light' : 'auto'} />
-    </View>
+    </ThemedView>
   );
 }
 
@@ -22,13 +43,27 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
   },
-  title: {
-    fontSize: 20,
-    fontWeight: 'bold',
+  titleContainer: {
+    flexDirection: 'row',
+    gap: 8,
+    alignItems: 'center',
+    justifyContent: 'center',
   },
   separator: {
     marginVertical: 30,
     height: 1,
-    width: '80%',
+    width: '100%',
+    borderBlockColor: '#fff'
+  },
+  sections: {
+    marginTop:20,
+    marginHorizontal: 20
+  },
+  image: {
+    height: 178,
+    width: 178,
+    bottom: 0,
+    left: 0,
+    position: 'relative',
   },
 });
