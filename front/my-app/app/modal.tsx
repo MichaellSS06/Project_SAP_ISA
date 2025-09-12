@@ -15,8 +15,9 @@ export default function ModalScreen() {
         <ThemedText type="subtitle">Actual Asistente SE Zorritos</ThemedText>
       </ThemedView>
 
-      <ThemedView style={{paddingTop: 8, ...styles.sections}}>
-        <Image source={require('@/assets/images/github.svg')} style={styles.image}/>
+      <ThemedView style={{paddingTop: 8, ...styles.sections, gap:16}}>
+        <ThemedView>
+          <Image source={require('@/assets/images/github_perfil.webp')} style={styles.image}/></ThemedView>
         <Image source={require('@/assets/images/github.svg')} style={styles.image}/>
       </ThemedView>
       <ThemedView style={{paddingTop: 8, ...styles.sections}}>
@@ -65,5 +66,6 @@ const styles = StyleSheet.create({
     bottom: 0,
     left: 0,
     position: 'relative',
+    borderRadius: 30
   },
 });

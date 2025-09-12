@@ -1,16 +1,15 @@
-import { Pressable, StyleSheet, TextInput } from 'react-native';
+import { StyleSheet, TextInput, FlatList, ActivityIndicator } from 'react-native';
 import { useState, useCallback, useMemo } from 'react';
 import { Collapsible } from '@/components/Collapsible';
 import ParallaxScrollView from '@/components/ParallaxScrollView';
 import { ThemedText } from '@/components/ThemedText';
 import { ThemedView } from '@/components/ThemedView';
 import { IconSymbol } from '@/components/ui/IconSymbol';
-import { useAvisosStore, type ListaAvisos, type Aviso } from '@/store/useStore';
-import { useRouter } from 'expo-router';
-import { useThemeColor } from '@/hooks/useThemeColor';
+import { useAvisosStore, type ListaAvisos } from '@/store/useStore';
 import CheckboxScreen from '@/components/Checkbox';
-
+import { useThemeColor } from '@/hooks/useThemeColor';
 import debounce from 'just-debounce-it';
+import AnimatedAvisoCard from '@/components/AvisoCard';
 
 export const useFilterAvisos = (filtroConsignacion: string[], filtroEstado: number[]) => {
   const avisos = useAvisosStore((state) => state.avisos);
@@ -26,11 +25,8 @@ export const useFilterAvisos = (filtroConsignacion: string[], filtroEstado: numb
 }
 
 export default function TabTwoScreen() {
-    const router = useRouter();
     const [inputValue, setInputValue] = useState('');
-    const color = useThemeColor({}, 'text');
-    const setCurrentAviso = useAvisosStore((state) => state.setCurrentAviso);
-    //const router = useRouter();
+    const colorText = useThemeColor({}, 'text');
     const [consignacion, setConsignacion] = useState<string[]>([])
     const arrayConsignacion = ["N","L","S"]
     // Si no hay estado, considerar todos
@@ -66,13 +62,6 @@ export default function TabTwoScreen() {
       debouncedSetInput(newText);
     }
 
-    const handlePressable = (aviso:Aviso) => {
-      setCurrentAviso(aviso)
-      console.log("Aviso seleccionado:", aviso)
-      router.push(`/${aviso.aviso}`);
-    };
-
-
   return (
     <ParallaxScrollView
       headerBackgroundColor={{ light: '#D0D0D0', dark: '#353636' }}
@@ -86,10 +75,10 @@ export default function TabTwoScreen() {
       }>
         
       <ThemedView style={styles.titleContainer}>
-        <ThemedText type="title">Lista de avisos</ThemedText>
+        <ThemedText type="subtitle" style = {{fontSize:25}}>Filtros</ThemedText>
       </ThemedView>
 
-      <Collapsible title="Consignación">
+      <Collapsible title="Consignación" mode={false}>
         <CheckboxScreen 
           estado={consignacion} 
           setEstado={setConsignacion} 
@@ -97,7 +86,7 @@ export default function TabTwoScreen() {
           resultadoFinal={filtroConsignacion} />
       </Collapsible>
      
-      <Collapsible title="Estado">
+      <Collapsible title="Estado" mode={false}>
         <CheckboxScreen 
           estado={estado} 
           setEstado={setEstado} 
@@ -105,31 +94,29 @@ export default function TabTwoScreen() {
           resultadoFinal={filtroEstado} />
       </Collapsible>
 
-      <Collapsible title="Línea o Subestación">
+      <Collapsible title="Línea o Subestación" mode={false}>
         <ThemedView style={{paddingRight:16}}>
             <TextInput
-            style={{color:color, ...styles.textinput}}
+            style={{color:colorText, ...styles.textinput}}
             // value={inputValue}
             onChangeText={handleChangeText}
             placeholder="Escribe aquí..."
-            placeholderTextColor={color}
+            placeholderTextColor={colorText}
             maxLength={10}
             />
         </ThemedView>
       </Collapsible>
 
-      {avisosFinal && avisosFinal.length > 0 && avisosFinal.map((aviso) => (
-        <ThemedView key={aviso.aviso}>
-          <Pressable onPress={()=>handlePressable(aviso)} >
-            <ThemedText>Aviso: {aviso.aviso}</ThemedText>
-            <ThemedText>Estado: {aviso.estado}</ThemedText>
-            <ThemedText>Consignación: {aviso.clase_consignacion}</ThemedText>
-            <ThemedText>Instalación: {aviso.instalacion}</ThemedText>
-            <ThemedText>Fecha inicio: {aviso.fecha_inic_revision}</ThemedText>
-            <ThemedText>Fecha fin: {aviso.fecha_fin_revision}</ThemedText>
-          </Pressable>
-        </ThemedView>
-        ))}
+      <ThemedView style={{gap:10}}>
+        {avisosFinal.length > 0 ? (
+          <FlatList
+            data={avisosFinal}
+            keyExtractor={(item) => item.aviso!.toString()}
+            renderItem={({ item, index }) => <AnimatedAvisoCard index={index} aviso={item}/>}
+            scrollEnabled={false}
+          />):<ThemedText>No hay avisos coincidentes</ThemedText>
+        }
+      </ThemedView> 
     </ParallaxScrollView>
   );
 }
@@ -159,5 +146,6 @@ const styles = StyleSheet.create({
     borderWidth:1, 
     borderRadius:4, 
     textShadowColor:'#fff', 
-    textAlign:'center'}
+    textAlign:'center'
+  }
 });

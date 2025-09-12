@@ -23,26 +23,21 @@ export default function CheckboxScreen<T extends string | number>({estado, setEs
   };
 
   return (
-    <ThemedView style={{ padding: 20 }}>
-      <ThemedText style={{ fontSize: 18, marginBottom: 10 }}>Filtros:</ThemedText>
-
+    <ThemedView style={{ paddingTop: 10, flexDirection: "row", flexWrap: "wrap", justifyContent: "space-between" }}>
       {arrayLista.map((op) => {
         const checked = estado.includes(op);
         return (
-          <ThemedView key={op} style={{ flexDirection: "row", alignItems: "center" }}>
+          <ThemedView key={op} style={{ flexDirection: "row", alignItems: "center", gap: 10, height: 40, width: "30%", marginVertical: 6 }}>
             <Checkbox
               value={checked}
               onValueChange={(newValue) => toggleOpcion(op, newValue)}
               color={checked ? "blue" : undefined}
+              style={{width: 30, height: 30}}
             />
-            <ThemedText>{op}</ThemedText>
+            <ThemedText type="subtitle">{op}</ThemedText>
           </ThemedView>
         );
       })}
-
-      <ThemedText style={{ marginTop: 20 }}>
-        Estado actual: {resultadoFinal.join(", ")}
-      </ThemedText>
     </ThemedView>
   );
 }

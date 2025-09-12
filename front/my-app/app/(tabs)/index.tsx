@@ -51,11 +51,20 @@ export default function HomeScreen() {
     return (
     <ParallaxScrollView
       headerBackgroundColor={{ light: '#A1CEDC', dark: '#1D3D47' }}
-      headerImage={
-        <Image
-          source={require('@/assets/images/partial-react-logo.png')}
-          style={styles.reactLogo}
-        />
+      headerImage={<Image
+            source={require('@/assets/images/jaguar_isa.webp')}
+            style={styles.reactLogo}
+            />
+        // <ThemedView>
+        //     <Image
+        //     source={require('@/assets/images/logo_sinfondo.webp')}
+        //     style={styles.isaLogo}
+        //     />
+        //    <Image
+        //     source={require('@/assets/images/jaguar_isa.webp')}
+        //     style={styles.reactLogo}
+        //     />
+        // </ThemedView>
       }>
         <ThemedView style={styles.titleContainer}>
             <ThemedText type="title">Bienvenidoo!</ThemedText>
@@ -67,37 +76,37 @@ export default function HomeScreen() {
         </ThemedView>
                 
         <ThemedView style={styles.stepContainer}>
-            <Pressable style={{backgroundColor:"red", ...styles.pressablebutton}} 
+            <Pressable style={{backgroundColor: st==="STN"? "#ff0000ff":"#c7ca00ff", borderColor:"#fbff00ba", ...styles.pressablebutton}} 
             onPress={() => {setSt("STN")}}>
                 <ThemedText type="subtitle" style={{fontSize:26}}>👋 STN     </ThemedText>
             </Pressable>
-            <Pressable style={{backgroundColor:"#9d00ffff", ...styles.pressablebutton}} 
+            <Pressable style={{backgroundColor: st==="STC"? "#ff0000ff":"#9d00ffff", borderColor:"#7400bcff", ...styles.pressablebutton}} 
             onPress={() => {setSt("STC")}}>
                 <ThemedText type="subtitle" style={{fontSize:26}}>📄 STC     </ThemedText>
             </Pressable>
-            <Pressable style={{backgroundColor:"#05ea55cf", ...styles.pressablebutton}} 
+            <Pressable style={{backgroundColor: st==="STS"? "#ff0000ff":"#05ea55cf", borderColor:"#029c38cf", ...styles.pressablebutton}} 
             onPress={() => {setSt("STS")}}>
                 <ThemedText type="subtitle" style={{fontSize:26}}>⚙️ STS     </ThemedText>
             </Pressable>
         </ThemedView>
 
         <ThemedView style={styles.stepContainer}>
-            <ThemedView style={{backgroundColor: "#ff8400ff", ...styles.databox}}>
+            <ThemedView style={{backgroundColor: "#ff8400ff", borderColor: "#b75f00ff", ...styles.databox}}>
                 <Pressable style ={{alignItems:"center"}} onPress={() => showPicker("inicio")}>
                     <ThemedText type="subtitle" style={{ marginVertical: 10, fontSize: 20}}>Seleccionar fecha de inicio</ThemedText>
                 </Pressable>
 
-                <ThemedText type= "defaultSemiBold" style={{ fontSize: 20, textAlign:"center" }}>
+                <ThemedText type= "defaultSemiBold" style={{ fontSize: 24, textAlign:"center" }}>
                     {fechaInicio.toISOString().split("T")[0]}
                 </ThemedText>
             </ThemedView>
             
-            <ThemedView style={{backgroundColor: "#0033ffff", ...styles.databox}}>
+            <ThemedView style={{backgroundColor: "#0033ffff", borderColor: "#0025b8ff", ...styles.databox}}>
                 <Pressable style ={{alignItems:"center"}} onPress={() => showPicker("fin")}>
                     <ThemedText type="subtitle" style={{ marginVertical: 10, fontSize: 20}}>Seleccionar fecha de fin</ThemedText>
                 </Pressable>
 
-                <ThemedText type= "defaultSemiBold" style={{fontSize: 20, textAlign:"center" }}>
+                <ThemedText type= "defaultSemiBold" style={{fontSize: 24, textAlign:"center" }}>
                     {fechaFin.toISOString().split("T")[0]}
                 </ThemedText>
             </ThemedView>
@@ -107,7 +116,7 @@ export default function HomeScreen() {
                 <DateTimePicker
                 value={fechaInicio}
                 mode="date"
-                display={Platform.OS === "ios" ? "spinner" : "default"}
+                display={Platform.OS === "ios" ? "inline" : "default"}
                 onChange={onChange}
                 />
             )}
@@ -134,9 +143,10 @@ const styles = StyleSheet.create({
   },
   reactLogo: {
     height: 178,
-    width: 290,
-    bottom: 0,
-    left: 0,
+    marginTop: 70,
+    width: 390,
+    top: 0,
+    left: -15,
     position: 'absolute',
   },
   pressablebutton: {
@@ -144,10 +154,22 @@ const styles = StyleSheet.create({
     height: 50,
     alignItems: "center",
     justifyContent: "center",
-    marginHorizontal: 60
+    marginHorizontal: 60,
+    borderWidth: 3,
   },
   databox: {
     borderRadius: 20,
-    paddingBottom: 10
+    paddingBottom: 10,
+    borderWidth: 3
+  },
+  isaLogo: {
+    height: 100,
+    width: 390,
+    marginTop: 20,
+    top: 0,
+    left: -20,
+    position: 'absolute',
+    zIndex: 10
+
   }
 });
