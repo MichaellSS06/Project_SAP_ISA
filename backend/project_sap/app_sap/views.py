@@ -43,13 +43,13 @@ class FiltrarRegistrosView(APIView):
         if fecha_inicio and fecha_fin:
             filtros &= (Q(fecha_inic_revision__gte=fecha_inicio) & Q(fecha_fin_revision__lte=fecha_fin))| (Q(fecha_fin_revision__gte=fecha_inicio) & Q(fecha_fin_revision__lte=fecha_fin)) | (Q(fecha_inic_revision__lte=fecha_inicio) & Q(fecha_fin_revision__gte=fecha_fin)) | (Q(fecha_inic_revision__gte=fecha_inicio) & Q(fecha_inic_revision__lte=fecha_fin))
 
-        print(filtros)
+        # print(filtros)
 
         registros = RegistrosSAP.objects.filter(filtros)
-        print(registros)
+        # print(registros)
 
         serializer = RegistroSerializer(registros, many=True)
-        print(len(serializer.data))
+        # print(len(serializer.data))
 
         return Response(serializer.data, status=status.HTTP_200_OK)
 

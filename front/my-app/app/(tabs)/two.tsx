@@ -1,10 +1,10 @@
-import { StyleSheet, TextInput, FlatList, ActivityIndicator } from 'react-native';
+import { StyleSheet, TextInput, FlatList } from 'react-native';
 import { useState, useCallback, useMemo } from 'react';
 import { Collapsible } from '@/components/Collapsible';
 import ParallaxScrollView from '@/components/ParallaxScrollView';
 import { ThemedText } from '@/components/ThemedText';
 import { ThemedView } from '@/components/ThemedView';
-import { IconSymbol } from '@/components/ui/IconSymbol';
+import { Image } from 'expo-image';
 import { useAvisosStore, type ListaAvisos } from '@/store/useStore';
 import CheckboxScreen from '@/components/Checkbox';
 import { useThemeColor } from '@/hooks/useThemeColor';
@@ -53,7 +53,7 @@ export default function TabTwoScreen() {
     const debouncedSetInput = useCallback(
       debounce((text: string) => {
         setInputValue(text);
-      }, 2000),
+      }, 1000),
       []
     );
 
@@ -66,12 +66,12 @@ export default function TabTwoScreen() {
     <ParallaxScrollView
       headerBackgroundColor={{ light: '#D0D0D0', dark: '#353636' }}
       headerImage={
-        <IconSymbol
-          size={310}
-          color="#808080"
-          name="chevron.left.forwardslash.chevron.right"
-          style={styles.headerImage}
-        />
+        <ThemedView>
+          <Image source={require('@/assets/images/onda.webp')} style={styles.ondaTop}/>
+          <Image source={require('@/assets/images/onda.webp')} style={styles.ondaBottom}/>
+          <Image source={require('@/assets/images/logo_black.webp')} style={styles.isaLogo}/>
+          <Image source={require('@/assets/images/base_isa_energia.webp')} style={styles.reactLogo}/>
+        </ThemedView>
       }>
         
       <ThemedView style={styles.titleContainer}>
@@ -133,11 +133,13 @@ const styles = StyleSheet.create({
     gap: 8,
   },
   reactLogo: {
-    height: 100,
-    width: 240,
-    bottom: 0,
-    left: 0,
+    height: 178,
+    marginTop: 72,
+    width: 520,
+    top: 0,
+    left: -125,
     position: 'absolute',
+    transform: [{scale: 1}],
   },
   textinput: {
     fontSize:16, 
@@ -147,5 +149,38 @@ const styles = StyleSheet.create({
     borderRadius:4, 
     textShadowColor:'#fff', 
     textAlign:'center'
-  }
+  },
+  isaLogo: {
+    height: 75,
+    width: 140,
+    padding: 0,
+    marginTop: 0,
+    top: 0,
+    left: 0,
+    position: 'absolute',
+    zIndex: 10,
+    borderWidth: 3,
+    borderColor: "#0000006a",
+    borderRadius: 10
+  },
+  ondaTop: {
+    height: 150,
+    width: 400,
+    marginTop: 0,
+    top: 0,
+    left: -15,
+    position: 'absolute',
+    zIndex: -1,
+    transform: [{scale:1},{rotate: "0deg"},{translateX:0}, {translateY:0}],
+  },
+  ondaBottom: {
+    height: 150,
+    width: 400,
+    marginTop: 0,
+    top: 0,
+    left: -15,
+    position: 'absolute',
+    zIndex: -1,
+    transform: [{scale:1},{rotate: "0deg"},{translateX:40}, {translateY:50}],
+  },
 });

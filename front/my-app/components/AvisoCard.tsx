@@ -13,8 +13,8 @@ export default function AnimatedAvisoCard({aviso, index}:{ aviso: Aviso; index: 
     useEffect(() => {
       Animated.timing(opacity, {
         toValue: 1,
-        duration: 500,
-        delay: index * 500,
+        duration: 300,
+        delay: index * 300,
         useNativeDriver: true,
       }).start();
     }, [index, opacity]);
@@ -31,7 +31,7 @@ function AvisoCard({aviso}: {aviso: Aviso}) {
     const colorTint = useThemeColor({}, 'tint');
     const handlePressable = (aviso:Aviso) => {
           setCurrentAviso(aviso)
-          console.log("Aviso seleccionado:", aviso)
+          // console.log("Aviso seleccionado:", aviso)
           router.push(`/${aviso.aviso}`);
         };
     return (

@@ -71,10 +71,20 @@ export default function Avisos() {
         <ParallaxScrollView
              headerBackgroundColor={{ light: '#A1CEDC', dark: '#1D3D47' }}
              headerImage={
-               <Image
-                 source={require('@/assets/images/partial-react-logo.png')}
-                 style={styles.reactLogo}
-               />
+              <ThemedView>
+                <Image
+                  source={require('@/assets/images/onda.webp')}
+                  style={styles.ondaTop}
+                  />
+                <Image
+                  source={require('@/assets/images/logo_nuevo.webp')}
+                  style={styles.reactLogo}
+                  />
+                <Image
+                  source={require('@/assets/images/onda.webp')}
+                  style={styles.ondaBottom}
+                />
+              </ThemedView>
              }>
         <ThemedView style={styles.stepContainer}>
         <Collapsible title="Detalles del Aviso" mode={true}>
@@ -146,11 +156,32 @@ const styles = StyleSheet.create({
     gap: 20,
     marginBottom: 20,
   },
-  reactLogo: {
-    height: 178,
-    width: 290,
-    bottom: 0,
-    left: 0,
+ reactLogo: {
+    height: 250,
+    marginTop: 0,
+    width: 400,
+    top: 0,
+    left: -10,
     position: 'absolute',
   },
+  ondaTop: {
+    height: 150,
+    width: 400,
+    marginTop: 0,
+    top: 0,
+    left: -15,
+    position: 'absolute',
+    zIndex: 10,
+    transform: [{scale:0.8},{rotate: "25deg"},{translateX:20}, {translateY:-60}]
+  },
+  ondaBottom: {
+    height: 150,
+    width: 400,
+    marginTop: 120,
+    top: 0,
+    left: -15,
+    position: 'absolute',
+    zIndex: 10,
+    transform: [{scale:0.8},{rotate: "45deg"},{translateX:-130}, {translateY:130}]
+  }
 });

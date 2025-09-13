@@ -12,7 +12,7 @@ import { useAvisosStore } from "@/store/useStore";
 export default function HomeScreen() {
     const [fechaInicio, setFechaInicio] = useState(new Date());
     const [fechaFin, setFechaFin] = useState(new Date());
-    const [date, setDate] = useState<"inicio"|"fin">("inicio"); 
+    const [date, setDate] = useState<"inicio"|"fin">("inicio");
     const [show, setShow] = useState(false);
     const [st, setSt] = useState("STN");
 
@@ -44,27 +44,24 @@ export default function HomeScreen() {
         setShow(true);
     };
 
-    console.log("Inicio", fechaInicio.toISOString().split("T")[0]);
-    console.log("Fin", fechaFin.toISOString().split("T")[0]);
-    console.log("ST", st);
+    // console.log("Inicio", fechaInicio.toISOString().split("T")[0]);
+    // console.log("Fin", fechaFin.toISOString().split("T")[0]);
+    // console.log("ST", st);
 
     return (
     <ParallaxScrollView
       headerBackgroundColor={{ light: '#A1CEDC', dark: '#1D3D47' }}
-      headerImage={<Image
+      headerImage={
+        <ThemedView>
+            <Image
+            source={require('@/assets/images/logo_sinfondo.webp')}
+            style={styles.isaLogo}
+            />
+           <Image
             source={require('@/assets/images/jaguar_isa.webp')}
             style={styles.reactLogo}
             />
-        // <ThemedView>
-        //     <Image
-        //     source={require('@/assets/images/logo_sinfondo.webp')}
-        //     style={styles.isaLogo}
-        //     />
-        //    <Image
-        //     source={require('@/assets/images/jaguar_isa.webp')}
-        //     style={styles.reactLogo}
-        //     />
-        // </ThemedView>
+        </ThemedView>
       }>
         <ThemedView style={styles.titleContainer}>
             <ThemedText type="title">Bienvenidoo!</ThemedText>
@@ -74,17 +71,17 @@ export default function HomeScreen() {
         <ThemedView style={styles.titleContainer}>
             <ThemedText type="subtitle" style={{textAlign: 'center', fontSize: 25, marginVertical:10}}>App de Avisos, OM y Planes de trabajo</ThemedText>
         </ThemedView>
-                
+
         <ThemedView style={styles.stepContainer}>
-            <Pressable style={{backgroundColor: st==="STN"? "#ff0000ff":"#c7ca00ff", borderColor:"#fbff00ba", ...styles.pressablebutton}} 
+            <Pressable style={{backgroundColor: st==="STN"? "#ff0000ff":"#c7ca00ff", borderColor:"#fbff00ba", ...styles.pressablebutton}}
             onPress={() => {setSt("STN")}}>
                 <ThemedText type="subtitle" style={{fontSize:26}}>👋 STN     </ThemedText>
             </Pressable>
-            <Pressable style={{backgroundColor: st==="STC"? "#ff0000ff":"#9d00ffff", borderColor:"#7400bcff", ...styles.pressablebutton}} 
+            <Pressable style={{backgroundColor: st==="STC"? "#ff0000ff":"#9d00ffff", borderColor:"#7400bcff", ...styles.pressablebutton}}
             onPress={() => {setSt("STC")}}>
                 <ThemedText type="subtitle" style={{fontSize:26}}>📄 STC     </ThemedText>
             </Pressable>
-            <Pressable style={{backgroundColor: st==="STS"? "#ff0000ff":"#05ea55cf", borderColor:"#029c38cf", ...styles.pressablebutton}} 
+            <Pressable style={{backgroundColor: st==="STS"? "#ff0000ff":"#05ea55cf", borderColor:"#029c38cf", ...styles.pressablebutton}}
             onPress={() => {setSt("STS")}}>
                 <ThemedText type="subtitle" style={{fontSize:26}}>⚙️ STS     </ThemedText>
             </Pressable>
@@ -100,7 +97,7 @@ export default function HomeScreen() {
                     {fechaInicio.toISOString().split("T")[0]}
                 </ThemedText>
             </ThemedView>
-            
+
             <ThemedView style={{backgroundColor: "#0033ffff", borderColor: "#0025b8ff", ...styles.databox}}>
                 <Pressable style ={{alignItems:"center"}} onPress={() => showPicker("fin")}>
                     <ThemedText type="subtitle" style={{ marginVertical: 10, fontSize: 20}}>Seleccionar fecha de fin</ThemedText>
@@ -143,14 +140,14 @@ const styles = StyleSheet.create({
   },
   reactLogo: {
     height: 178,
-    marginTop: 70,
-    width: 390,
+    marginTop: 72,
+    width: 401,
     top: 0,
-    left: -15,
+    left: -17,
     position: 'absolute',
   },
   pressablebutton: {
-    borderRadius: 30, 
+    borderRadius: 30,
     height: 50,
     alignItems: "center",
     justifyContent: "center",
@@ -170,6 +167,5 @@ const styles = StyleSheet.create({
     left: -20,
     position: 'absolute',
     zIndex: 10
-
   }
 });
