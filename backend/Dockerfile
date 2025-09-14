@@ -4,6 +4,7 @@ FROM python:3.11-slim
 # Variables de entorno
 ENV PYTHONDONTWRITEBYTECODE=1
 ENV PYTHONUNBUFFERED=1
+ENV DJANGO_SETTINGS_MODULE=project_sap.project_sap.settings
 
 # Crear directorio de trabajo
 WORKDIR /app
