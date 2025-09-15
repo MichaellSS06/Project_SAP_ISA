@@ -17,8 +17,8 @@ RUN apt-get update && apt-get install -y \
 COPY requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt
 
-# Copiamos solo el proyecto Django
-COPY ..
+# Copiar todo el contenido del proyecto al contenedor
+COPY . .
 
 # Exponer puerto
 EXPOSE 8000
