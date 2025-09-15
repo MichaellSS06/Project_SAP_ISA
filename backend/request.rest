@@ -2,3 +2,6 @@
 GET http://localhost:8000/api/registros/filtrar/?st=STN&fecha_inicio=2025-09-10&fecha_fin=2025-09-10   
 ###Borrar todos los registros
 DELETE http://localhost:8000/api/registros/eliminar/
+
+###Get a render
+GET https://project-sap-isa.onrender.com/api/registros/filtrar/?st=STN&fecha_inicio=2025-09-10&fecha_fin=2025-09-10
