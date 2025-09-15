@@ -18,8 +18,8 @@ RUN apt-get update && apt-get install -y \
 COPY requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt
 
-# Copiar proyecto
-COPY . .
+# Copiamos solo el proyecto Django
+COPY project_sap ./project_sap
 
 # Exponer puerto
 EXPOSE 8000
