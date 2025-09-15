@@ -3,4 +3,4 @@ from django.apps import AppConfig
 
 class AppSapConfig(AppConfig):
     default_auto_field = 'django.db.models.BigAutoField'
-    name = 'project_sap.app_sap'
+    name = 'app_sap'
