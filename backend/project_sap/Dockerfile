@@ -23,8 +23,9 @@ COPY . .
 # Exponer puerto
 EXPOSE 8000
 
-# Comando para ejecutar migraciones y luego Gunicorn
-CMD sh -c "python project_sap/manage.py migrate && gunicorn project_sap.wsgi:application --bind 0.0.0.0:$PORT"
+# Comando para ejecutar migraciones y luego Gunicorn usando python3
+# "$PORT" será sustituido automáticamente por Vercel
+CMD ["sh", "-c", "python3 manage.py migrate && exec gunicorn project_sap.wsgi:application --bind 0.0.0.0:${PORT:-8000}"]
 
 # Comando para ejecutar Django
 # CMD ["python", "project_sap/manage.py", "runserver", "0.0.0.0:8000"]
